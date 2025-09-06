@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: ai-skincare-advisor
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run preview
+    envVars:
+      - key: GEMINI_API_KEY
+        value: <your-gemini-api-key>
+    plan: free
