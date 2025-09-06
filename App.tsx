@@ -204,8 +204,8 @@ const App: React.FC = () => {
             cartItemCount={totalCartItems} 
             onMenuClick={() => setIsSidebarOpen(true)}
         />
-        <main className="w-full flex-grow flex items-center justify-center px-2 sm:px-3 md:px-4 py-10 sm:py-12 md:py-16">
-            <div className="w-full h-full transition-all duration-300">
+        <main className="w-full flex-grow flex items-start justify-center px-2 sm:px-3 md:px-4 pt-4 sm:pt-6 md:pt-8 pb-6 sm:pb-8 md:pb-12">
+            <div className="w-full h-[90%] transition-all duration-300">
                 {step === 4 ? (
                   renderStep()
                 ) : (
