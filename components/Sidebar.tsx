@@ -20,6 +20,17 @@ const Sidebar: React.FC<SidebarProps> = ({
   isOpen,
   onClose
 }) => {
+  React.useEffect(() => {
+    if (isOpen && window.innerWidth < 1024) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isOpen]);
+
   return (
     <aside className={`
       bg-slate-100 border-r border-slate-200/80 flex flex-col
