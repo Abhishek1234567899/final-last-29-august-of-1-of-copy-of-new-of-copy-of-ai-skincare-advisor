@@ -73,13 +73,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             Start Over
           </Button>
 
-          {/* Footer */}
-          <footer className="text-center text-xs text-slate-500 font-medium pt-4">
-            <p>
-              Powered by Google Gemini. For informational purposes only.
-              Always consult a dermatologist for medical advice.
-            </p>
-          </footer>
+          {/* Footer removed as per user request */}
         </div>
       </div>
 
