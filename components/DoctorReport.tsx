@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import { SkincareRoutine, FaceImage, SkinConditionCategory } from '../types';
 import Button from './common/Button';
@@ -100,13 +98,13 @@ const DoctorReport: React.FC<DoctorReportProps> = ({
 
 
   return (
-    <div className="animate-fade-in-up h-full flex flex-col w-full">
-      <div className="flex items-center justify-between mb-4 flex-shrink-0">
+    <div className="animate-fade-in-up h-full flex flex-col w-full bg-white rounded-2xl border-2 border-slate-200 shadow-inner-soft">
+      <div className="flex items-center justify-between p-4 sm:p-6 flex-shrink-0 border-b">
         <div>
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
             <span className="text-brand-primary">Step 5:</span> AI Doctor's Report
           </h2>
-          <p className="text-sm sm:text-base text-slate-600">Here is a summary of your analysis and personalized plan.</p>
+          <p className="text-sm text-slate-600">A summary of your analysis and plan.</p>
         </div>
         <Button onClick={handleDownload} isLoading={isDownloading} variant="secondary" size="sm" className="gap-2">
           <Download className="w-4 h-4"/>
@@ -114,8 +112,8 @@ const DoctorReport: React.FC<DoctorReportProps> = ({
         </Button>
       </div>
 
-      <div className="flex-grow overflow-y-auto bg-white rounded-2xl border-2 border-slate-200 p-4 sm:p-6 lg:p-8 shadow-inner-soft">
-        <div id="doctor-report-content" className="space-y-8">
+      <div className="flex-grow overflow-y-auto">
+        <div id="doctor-report-content" className="space-y-8 p-4 sm:p-6 lg:p-8">
           <div className="text-center border-b pb-4">
             <h1 className="text-2xl font-bold text-slate-800">{routineTitle}</h1>
             <p className="text-slate-500">Personalized Skincare Plan</p>
@@ -210,7 +208,7 @@ const DoctorReport: React.FC<DoctorReportProps> = ({
         </div>
       </div>
 
-      <div className="flex-shrink-0 flex flex-wrap justify-center sm:justify-between items-center mt-8 pt-6 border-t border-slate-200 gap-4">
+      <div className="flex-shrink-0 flex flex-wrap justify-center sm:justify-between items-center p-4 border-t border-slate-200 gap-4">
         <Button onClick={onBack} variant="secondary" size="sm" className="gap-2">
             <ArrowLeftIcon className="w-4 h-4" />
             Back to Plan

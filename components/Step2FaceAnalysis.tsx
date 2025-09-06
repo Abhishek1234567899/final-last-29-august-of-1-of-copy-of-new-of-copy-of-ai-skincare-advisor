@@ -1,4 +1,3 @@
-
 import React, { useCallback, useState, useEffect } from 'react';
 import { SkinConditionCategory, FaceImage } from '../types';
 import Button from './common/Button';
@@ -122,7 +121,7 @@ const Step2FaceAnalysis: React.FC<Step2Props> = ({
   
   return (
     <div className="animate-fade-in-up h-full flex flex-col w-full">
-        <div className="flex-grow">
+        <div className="flex-grow overflow-y-auto pr-2 -mr-2 sm:pr-4 sm:-mr-4">
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2">
               <span className="text-brand-primary">Step 2:</span> AI Face Analysis
           </h2>
@@ -333,7 +332,7 @@ const Step2FaceAnalysis: React.FC<Step2Props> = ({
             </div>
           )}
         </div>
-        <div className="flex-shrink-0 flex justify-between mt-8 pt-6 border-t border-slate-200">
+        <div className="flex-shrink-0 flex justify-between mt-4 pt-4 border-t border-slate-200">
           <Button onClick={onBack} variant="secondary" size="sm">Back</Button>
           <Button onClick={onNext} disabled={!analysisResult} size="sm">Next: Set My Goals</Button>
         </div>

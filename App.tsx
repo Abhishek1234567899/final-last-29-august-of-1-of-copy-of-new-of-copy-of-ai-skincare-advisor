@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { PastProduct, SkinConditionCategory, SkincareRoutine, ChatMessage, FaceImage, CartItem, RoutineStep, AlternativeProduct } from './types';
 import Step1PastProducts from './components/Step1PastProducts';
@@ -15,7 +14,7 @@ const App: React.FC = () => {
   const [step, setStep] = useState<number>(1);
   const [pastProducts, setPastProducts] = useState<PastProduct[]>([]);
   const [faceImages, setFaceImages] = useState<FaceImage[]>([]);
-  const [analysisResult, setAnalysisResult] = useState<SkinConditionCategory[] | null>(null);
+  const [analysisResult, setAnalysisResult] = useState<SkinConditionCategory[] | null>([]);
   const [skincareGoals, setSkincareGoals] = useState<string[]>([]);
   const [recommendation, setRecommendation] = useState<SkincareRoutine | null>(null);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
@@ -197,19 +196,19 @@ const App: React.FC = () => {
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
-      <div className="w-full h-screen overflow-y-auto flex flex-col">
+      <div className="w-full h-screen overflow-y-hidden flex flex-col">
         <Header 
             onReset={resetState} 
             onCartClick={() => setIsCartOpen(true)} 
             cartItemCount={totalCartItems} 
             onMenuClick={() => setIsSidebarOpen(true)}
         />
-        <main className="w-full flex-grow flex items-start justify-center px-2 sm:px-3 md:px-4 pt-4 sm:pt-6 md:pt-8 pb-6 sm:pb-8 md:pb-12">
-            <div className="w-full h-[90%] transition-all duration-300">
-                {step === 4 ? (
+        <main className="w-full flex-1 flex items-center justify-center p-2 sm:p-4 min-h-0">
+            <div className="w-full h-full transition-all duration-300">
+                {step === 4 || step === 5 ? (
                   renderStep()
                 ) : (
-                  <div className="bg-brand-surface rounded-2xl shadow-lifted p-6 sm:p-8 h-full flex flex-col border-4 border-brand-primary">
+                  <div className="bg-brand-surface rounded-2xl shadow-lifted p-4 sm:p-6 h-full flex flex-col border-4 border-brand-primary">
                     {renderStep()}
                   </div>
                 )}
