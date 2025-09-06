@@ -1,34 +1,46 @@
-import React, { useState, useCallback } from 'react';
-import { PastProduct, SkinConditionCategory, SkincareRoutine, ChatMessage, FaceImage, CartItem, RoutineStep, AlternativeProduct } from './types';
-import Step1PastProducts from './components/Step1PastProducts';
-import Step2FaceAnalysis from './components/Step2FaceAnalysis';
-import Step3Goals from './components/Step3Goals';
-import DoctorReport from './components/DoctorReport';
-import Report from './components/Report';
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
-import CartDrawer from './components/CartDrawer';
-import ChatbotPage from './components/ChatbotPage';
+import React, { useState, useCallback } from "react";
+import {
+  PastProduct,
+  SkinConditionCategory,
+  SkincareRoutine,
+  ChatMessage,
+  FaceImage,
+  CartItem,
+  RoutineStep,
+  AlternativeProduct,
+} from "./types";
+import Step1PastProducts from "./components/Step1PastProducts";
+import Step2FaceAnalysis from "./components/Step2FaceAnalysis";
+import Step3Goals from "./components/Step3Goals";
+import DoctorReport from "./components/DoctorReport";
+import Report from "./components/Report";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import CartDrawer from "./components/CartDrawer";
+import ChatbotPage from "./components/ChatbotPage";
 
 const App: React.FC = () => {
   const [step, setStep] = useState<number>(1);
   const [pastProducts, setPastProducts] = useState<PastProduct[]>([]);
   const [faceImages, setFaceImages] = useState<FaceImage[]>([]);
-  const [analysisResult, setAnalysisResult] = useState<SkinConditionCategory[] | null>([]);
+  const [analysisResult, setAnalysisResult] = useState<
+    SkinConditionCategory[] | null
+  >([]);
   const [skincareGoals, setSkincareGoals] = useState<string[]>([]);
-  const [recommendation, setRecommendation] = useState<SkincareRoutine | null>(null);
+  const [recommendation, setRecommendation] =
+    useState<SkincareRoutine | null>(null);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
-  const [routineTitle, setRoutineTitle] = useState<string>('');
+  const [routineTitle, setRoutineTitle] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const handleNextStep = () => setStep(prev => prev + 1);
-  const handlePrevStep = () => setStep(prev => prev - 1);
+  const handleNextStep = () => setStep((prev) => prev + 1);
+  const handlePrevStep = () => setStep((prev) => prev - 1);
 
   const resetState = useCallback(() => {
-    faceImages.forEach(image => URL.revokeObjectURL(image.previewUrl));
+    faceImages.forEach((image) => URL.revokeObjectURL(image.previewUrl));
     setStep(1);
     setPastProducts([]);
     setFaceImages([]);
@@ -36,7 +48,7 @@ const App: React.FC = () => {
     setSkincareGoals([]);
     setRecommendation(null);
     setChatHistory([]);
-    setRoutineTitle('');
+    setRoutineTitle("");
     setIsLoading(false);
     setCart([]);
     setIsCartOpen(false);
@@ -44,10 +56,12 @@ const App: React.FC = () => {
   }, [faceImages]);
 
   const handleAddToCart = (product: RoutineStep | AlternativeProduct) => {
-    setCart(prevCart => {
-      const existingItem = prevCart.find(item => item.productId === product.productId);
+    setCart((prevCart) => {
+      const existingItem = prevCart.find(
+        (item) => item.productId === product.productId
+      );
       if (existingItem) {
-        return prevCart.map(item =>
+        return prevCart.map((item) =>
           item.productId === product.productId
             ? { ...item, quantity: item.quantity + 1 }
             : item
@@ -59,11 +73,13 @@ const App: React.FC = () => {
   };
 
   const handleBulkAddToCart = (products: (RoutineStep | AlternativeProduct)[]) => {
-    setCart(prevCart => {
+    setCart((prevCart) => {
       const newCart = [...prevCart];
-      const cartMap: Map<string, CartItem> = new Map(newCart.map(item => [item.productId, item]));
+      const cartMap: Map<string, CartItem> = new Map(
+        newCart.map((item) => [item.productId, item])
+      );
 
-      products.forEach(productToAdd => {
+      products.forEach((productToAdd) => {
         const existingItem = cartMap.get(productToAdd.productId);
         if (existingItem) {
           existingItem.quantity += 1;
@@ -73,21 +89,21 @@ const App: React.FC = () => {
           cartMap.set(newItem.productId, newItem);
         }
       });
-      
+
       return newCart;
     });
   };
 
   const handleRemoveFromCart = (productId: string) => {
-    setCart(prevCart => prevCart.filter(item => item.productId !== productId));
+    setCart((prevCart) => prevCart.filter((item) => item.productId !== productId));
   };
-  
+
   const handleUpdateQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) {
       handleRemoveFromCart(productId);
     } else {
-      setCart(prevCart =>
-        prevCart.map(item =>
+      setCart((prevCart) =>
+        prevCart.map((item) =>
           item.productId === productId ? { ...item, quantity } : item
         )
       );
@@ -160,17 +176,17 @@ const App: React.FC = () => {
             skincareGoals={skincareGoals}
           />
         );
-       case 6:
+      case 6:
         return (
-            <ChatbotPage
-                analysisResult={analysisResult}
-                skincareGoals={skincareGoals}
-                recommendation={recommendation}
-                chatHistory={chatHistory}
-                setChatHistory={setChatHistory}
-                onBack={handlePrevStep}
-                onReset={resetState}
-            />
+          <ChatbotPage
+            analysisResult={analysisResult}
+            skincareGoals={skincareGoals}
+            recommendation={recommendation}
+            chatHistory={chatHistory}
+            setChatHistory={setChatHistory}
+            onBack={handlePrevStep}
+            onReset={resetState}
+          />
         );
       default:
         return <p>Invalid Step</p>;
@@ -180,42 +196,50 @@ const App: React.FC = () => {
   const totalCartItems = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <div className="w-full min-h-screen lg:grid lg:grid-cols-[350px,1fr] bg-brand-bg">
-       {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/60 z-40 lg:hidden" 
+    <div className="w-full h-screen lg:grid lg:grid-cols-[350px,1fr] bg-brand-bg overflow-hidden">
+      {/* Sidebar Overlay for Mobile */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
           aria-hidden="true"
         ></div>
       )}
-      <Sidebar 
-        currentStep={step} 
-        onReset={resetState} 
-        onCartClick={() => setIsCartOpen(true)} 
+
+      {/* Sidebar */}
+      <Sidebar
+        currentStep={step}
+        onReset={resetState}
+        onCartClick={() => setIsCartOpen(true)}
         cartItemCount={totalCartItems}
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
-      <div className="w-full h-screen overflow-y-hidden flex flex-col">
-        <Header 
-            onReset={resetState} 
-            onCartClick={() => setIsCartOpen(true)} 
-            cartItemCount={totalCartItems} 
-            onMenuClick={() => setIsSidebarOpen(true)}
+
+      {/* Main Content */}
+      <div className="w-full h-screen flex flex-col overflow-hidden">
+        <Header
+          onReset={resetState}
+          onCartClick={() => setIsCartOpen(true)}
+          cartItemCount={totalCartItems}
+          onMenuClick={() => setIsSidebarOpen(true)}
         />
-        <main className="w-full flex-1 flex items-center justify-center p-2 sm:p-4 min-h-0">
-            <div className="w-full h-full transition-all duration-300">
-                {step === 4 || step === 5 ? (
-                  renderStep()
-                ) : (
-                  <div className="bg-brand-surface rounded-2xl shadow-lifted p-4 sm:p-6 h-full flex flex-col border-4 border-brand-primary">
-                    {renderStep()}
-                  </div>
-                )}
-            </div>
+
+        <main className="w-full flex-1 overflow-y-auto p-2 sm:p-4">
+          <div className="w-full h-full transition-all duration-300">
+            {step === 4 || step === 5 ? (
+              renderStep()
+            ) : (
+              <div className="bg-brand-surface rounded-2xl shadow-lifted p-4 sm:p-6 min-h-full flex flex-col border-4 border-brand-primary">
+                {renderStep()}
+              </div>
+            )}
+          </div>
         </main>
       </div>
-       <CartDrawer
+
+      {/* Cart Drawer */}
+      <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         cartItems={cart}
