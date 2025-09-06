@@ -23,12 +23,13 @@ const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside className={`
       bg-slate-100 border-r border-slate-200/80 flex flex-col
-      fixed inset-y-0 left-0 z-50 w-[350px] transition-transform duration-300 ease-in-out
+      fixed inset-y-0 left-0 z-50 transition-transform duration-300 ease-in-out
       ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-      lg:relative lg:translate-x-0 lg:w-full
+      w-full h-full max-w-full
+      lg:relative lg:translate-x-0 lg:w-full lg:h-auto lg:max-w-[350px]
     `}>
       {/* Scrollable content */}
-      <div className="relative z-10 flex-1 overflow-y-auto p-8">
+  <div className="relative z-10 flex-1 overflow-y-auto p-8">
         {/* Top Section */}
         <div className="mb-12 flex items-center justify-between">
           <a href="https://dermatics.in" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 group">
@@ -78,7 +79,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Sticky bottom nav — Close button like YouTube */}
-      <div className="relative z-10 p-4 border-t border-slate-200 lg:hidden">
+  <div className="fixed bottom-0 left-0 w-full z-20 p-4 border-t border-slate-200 bg-slate-100 lg:hidden">
         <button
           onClick={onClose}
           className="p-2 rounded-full hover:bg-slate-200 transition-colors"
